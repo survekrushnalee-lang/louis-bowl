@@ -154,20 +154,6 @@ function calculateScore() {
   return { score, breakdown };
 }
 
-// SCORE TO SUPABASE
-
-const { score } = calculateScore();
-
-await supabase.from("predictions").insert([
-  {
-    username,
-    score,
-    answers
-  }
-]);
-
-
-
 // SHOW RESULTS 
 function showResults() {
   const resultsEl = document.getElementById("results");
@@ -225,7 +211,25 @@ submitBtn.addEventListener("click", async () => {
 
   localStorage.setItem("mastermindAnswers", JSON.stringify(answers));
   localStorage.setItem("mastermindLocked", "true");
-  alert("Predictions locked 🔒");
+
+  const { score } = calculateScore();
+
+  const { error } = await supabase.from("predictions").insert([
+    {
+      username,
+      score,
+      answers
+    }
+  ]);
+  
+   if (error) {
+    console.error("Supabase error:", error);
+    alert("Something went wrong saving your score 😭");
+  } else {
+    alert("Predictions locked 🔒");
+    showResults();
+    loadLeaderboard();
+  }
 });
 
 renderQuiz();
@@ -234,9 +238,9 @@ if (isLocked) {
   submitBtn.textContent = "Predictions Locked 🔒";
   submitBtn.disabled = true;
 
-  // Only show results if correct answers exist
   if (Object.keys(correctAnswers).length) {
     showResults();
+    loadLeaderboard();
   }
 } else {
   checkIfComplete();
