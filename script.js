@@ -3,7 +3,7 @@
 // ==============================
 if (!window.supabaseClient) {
   const supabaseUrl = "https://bjlbgrtfkreeztajlptf.supabase.co";
-  const supabaseKey = "sb_publishable_1LiENTEoXK9d4LwAzucnZQ_tZ46Aebg";
+  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJqbGJncnRma3JlZXp0YWpscHRmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkyOTc5NDksImV4cCI6MjA4NDg3Mzk0OX0.a97zm_rhl6f1boJ6VtsZJAVLMTvmgjy2pOI9Htvoq2s";
   window.supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 }
 let supabase = window.supabaseClient;
