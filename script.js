@@ -1,3 +1,14 @@
+
+// QUIZ ANSWERS
+
+const correctAnswers = {
+  outfit: "Gold Bodysuit",
+  surpriseSong: "1989"
+};
+
+
+// QUESTIONS CONFIG
+
 const questions = [
   {
     id: "outfit",
@@ -22,10 +33,27 @@ const questions = [
   }
 ];
 
+// DOM ELEMENTS
+
 const quizEl = document.getElementById("quiz");
 const submitBtn = document.getElementById("submit");
 
+// STATE
+
 const answers = {};
+const isLocked = localStorage.getItem("mastermindLocked");
+
+// Load saved answers if they exist
+
+const savedAnswers = JSON.parse(
+  localStorage.getItem("mastermindAnswers")
+);
+
+if (savedAnswers) {
+  Object.assign(answers, savedAnswers);
+}
+
+// RENDER QUIZ
 
 function renderQuiz() {
   quizEl.innerHTML = "";
@@ -47,6 +75,16 @@ function renderQuiz() {
       input.name = q.id;
       input.value = option;
 
+      // Restore checked state
+      if (answers[q.id] === option) {
+        input.checked = true;
+      }
+
+       // Disable inputs if already locked
+      if (isLocked) {
+        input.disabled = true;
+      }
+      
       input.addEventListener("change", () => {
         answers[q.id] = option;
         checkIfComplete();
@@ -61,12 +99,68 @@ function renderQuiz() {
   });
 }
 
+// CHECK IF ALL QUESTIONS ANSWERED
 function checkIfComplete() {
   const allAnswered = questions.every(q => answers[q.id]);
   submitBtn.disabled = !allAnswered;
 }
 
-renderQuiz();
+// SCORE CALCULATOR
+function calculateScore() {
+  let score = 0;
+  const breakdown = [];
+
+  questions.forEach((q) => {
+    const userAnswer = answers[q.id];
+    const correct = correctAnswers[q.id];
+
+    if (!correct) return;
+
+    if (userAnswer === correct) {
+      score += q.points;
+      breakdown.push({
+        question: q.question,
+        result: "correct",
+        points: q.points
+      });
+    } else {
+      breakdown.push({
+        question: q.question,
+        result: "wrong",
+        points: 0
+      });
+    }
+  });
+
+  return { score, breakdown };
+}
+
+// SHOW RESULTS 
+function showResults() {
+  const resultsEl = document.getElementById("results");
+  const quizContainer = document.getElementById("quiz");
+
+  const { score, breakdown } = calculateScore();
+
+  quizContainer.style.display = "none";
+  submitBtn.style.display = "none";
+  resultsEl.style.display = "block";
+
+  let html = `<h2>Your Score: ${score}</h2>`;
+
+  breakdown.forEach((item) => {
+    html += `
+      <p>
+        ${item.question} —
+        <strong>${item.result === "correct" ? "✅" : "❌"}</strong>
+      </p>
+    `;
+  });
+
+  resultsEl.innerHTML = html;
+}
+
+// SUBMIT HANDLER
 
 submitBtn.addEventListener("click", () => {
   submitBtn.disabled = true;
@@ -74,6 +168,22 @@ submitBtn.addEventListener("click", () => {
   const inputs = document.querySelectorAll("input");
   inputs.forEach(input => input.disabled = true);
 
+  localStorage.setItem("mastermindAnswers", JSON.stringify(answers));
+  localStorage.setItem("mastermindLocked", "true");
   alert("Predictions locked 🔒");
-  console.log("User answers:", answers);
 });
+
+renderQuiz();
+
+if (isLocked) {
+  submitBtn.textContent = "Predictions Locked 🔒";
+  submitBtn.disabled = true;
+
+  // Only show results if correct answers exist
+  if (Object.keys(correctAnswers).length) {
+    showResults();
+  }
+} else {
+  checkIfComplete();
+}
+
