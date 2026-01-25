@@ -8,13 +8,17 @@ const correctAnswers = {
 
 // SUPABASE STUFF
 
-const supabaseUrl = "https://bjlbgrtfkreeztajlptf.supabase.co";
-const supabaseKey = "sb_publishable_1LiENTEoXK9d4LwAzucnZQ_tZ46Aebg";
+if (!window.supabaseClient) {
+  const supabaseUrl = "https://bjlbgrtfkreeztajlptf.supabase.co";
+  const supabaseKey = "sb_publishable_1LiENTEoXK9d4LwAzucnZQ_tZ46Aebg";
 
-const supabase = window.supabase.createClient(
-  supabaseUrl,
-  supabaseKey
-);
+  window.supabaseClient = window.supabase.createClient(
+    supabaseUrl,
+    supabaseKey
+  );
+}
+
+const supabase = window.supabaseClient;
 
 // USERNAME 
 
