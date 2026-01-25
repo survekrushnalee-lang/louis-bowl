@@ -1,10 +1,13 @@
 // ==============================
 // SUPABASE CLIENT (SAFE SINGLETON)
 // ==============================
-const supabase = window.supabase.createClient(
+if (!window._supabaseClient) {
+  window._supabaseClient = window.supabase.createClient(
   "https://bjlbgrtfkreeztajlptf.supabase.co",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJqbGJncnRma3JlZXp0YWpscHRmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkyOTc5NDksImV4cCI6MjA4NDg3Mzk0OX0.a97zm_rhl6f1boJ6VtsZJAVLMTvmgjy2pOI9Htvoq2s"
 );
+
+const supabase = window._supabaseClient;
 
 // ==============================
 // QUIZ CONFIG
