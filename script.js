@@ -47,12 +47,15 @@ if (savedAnswers) Object.assign(answers, savedAnswers);
 // ==============================
 // SUPABASE CLIENT (NO DUPLICATES)
 // ==============================
-const supabaseUrl = "https://bjlbgrtfkreeztajlptf.supabase.co";
-const supabaseKey = "sb_publishable_1LiENTEoXK9d4LwAzucnZQ_tZ46Aebg";
-
 // Only create the client once
-const supabase = window.supabaseClient || window.supabase.createClient(supabaseUrl, supabaseKey);
-window.supabaseClient = supabase;
+if (!window.supabaseClient) {
+  const supabaseUrl = "https://bjlbgrtfkreeztajlptf.supabase.co";
+  const supabaseKey = "sb_publishable_1LiENTEoXK9d4LwAzucnZQ_tZ46Aebg";
+
+  window.supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+}
+
+const supabase = window.supabaseClient;
 
 // ==============================
 // GET USERNAME
