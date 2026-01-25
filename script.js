@@ -1,4 +1,19 @@
 // ==============================
+// SUPABASE CLIENT (SAFE SINGLETON)
+// ==============================
+if (!window.supabaseClient) {
+  const supabaseUrl = "https://bjlbgrtfkreeztajlptf.supabase.co";
+  const supabaseKey = "sb_publishable_1LiENTEoXK9d4LwAzucnZQ_tZ46Aebg";
+
+  // store globally so we never redeclare
+  window.supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+}
+
+// always use this variable in your code
+const supabase = window.supabaseClient;
+
+
+// ==============================
 // QUIZ CONFIG
 // ==============================
 const questions = [
@@ -44,18 +59,6 @@ const isLocked = localStorage.getItem("mastermindLocked");
 const savedAnswers = JSON.parse(localStorage.getItem("mastermindAnswers"));
 if (savedAnswers) Object.assign(answers, savedAnswers);
 
-// ==============================
-// SUPABASE CLIENT (NO DUPLICATES)
-// ==============================
-// Only create the client once
-if (!window.supabaseClient) {
-  const supabaseUrl = "https://bjlbgrtfkreeztajlptf.supabase.co";
-  const supabaseKey = "sb_publishable_1LiENTEoXK9d4LwAzucnZQ_tZ46Aebg";
-
-  window.supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
-}
-
-const supabase = window.supabaseClient;
 
 // ==============================
 // GET USERNAME
