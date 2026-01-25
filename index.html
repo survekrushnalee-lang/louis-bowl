@@ -2,27 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Mastermind</title>
+  <title>Mastermind Quiz</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <div id="app">
-    <h1>Mastermind</h1>
+    <h1>Mastermind Quiz</h1>
 
+    <!-- QUIZ QUESTIONS WILL APPEAR HERE -->
     <div id="quiz"></div>
 
-    <button id="submit" disabled>
-      Lock In Predictions
-    </button>
+    <!-- SUBMIT BUTTON -->
+    <button id="submit" disabled>Lock In Predictions</button>
 
+    <!-- RESULTS -->
+    <div id="results" style="display:none;"></div>
+
+    <!-- LEADERBOARD -->
+    <div id="leaderboard"></div>
   </div>
 
-  <div id="results" style="display:none;"></div>
-
-  <div id="leaderboard"></div>
-
+  <!-- SUPABASE SCRIPT (ONLY ONCE!) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- YOUR CUSTOM SCRIPT -->
   <script src="script.js"></script>
+
 </body>
 </html>
