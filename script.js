@@ -6,6 +6,25 @@ const correctAnswers = {
   surpriseSong: "1989"
 };
 
+// SUPABASE STUFF
+
+const supabaseUrl = "https://bjlbgrtfkreeztajlptf.supabase.co";
+const supabaseKey = "sb_publishable_1LiENTEoXK9d4LwAzucnZQ_tZ46Aebg";
+
+const supabase = window.supabase.createClient(
+  supabaseUrl,
+  supabaseKey
+);
+
+// USERNAME 
+
+let username = localStorage.getItem("mastermindUsername");
+
+if (!username) {
+  username = prompt("Enter a username for the leaderboard:");
+  localStorage.setItem("mastermindUsername", username);
+}
+
 
 // QUESTIONS CONFIG
 
@@ -135,6 +154,20 @@ function calculateScore() {
   return { score, breakdown };
 }
 
+// SCORE TO SUPABASE
+
+const { score } = calculateScore();
+
+await supabase.from("predictions").insert([
+  {
+    username,
+    score,
+    answers
+  }
+]);
+
+
+
 // SHOW RESULTS 
 function showResults() {
   const resultsEl = document.getElementById("results");
@@ -160,9 +193,31 @@ function showResults() {
   resultsEl.innerHTML = html;
 }
 
+// ASYNC FOR SUBMIT HANDLER
+async function loadLeaderboard() {
+  const { data, error } = await supabase
+    .from("predictions")
+    .select("username, score")
+    .order("score", { ascending: false })
+    .limit(10);
+
+  if (error) return;
+
+  const leaderboardEl = document.getElementById("leaderboard");
+
+  leaderboardEl.innerHTML = "<h3>Leaderboard</h3>";
+
+  data.forEach((entry, index) => {
+    leaderboardEl.innerHTML += `
+      <p>${index + 1}. ${entry.username} — ${entry.score}</p>
+    `;
+  });
+}
+
+
 // SUBMIT HANDLER
 
-submitBtn.addEventListener("click", () => {
+submitBtn.addEventListener("click", async () => {
   submitBtn.disabled = true;
 
   const inputs = document.querySelectorAll("input");
@@ -186,4 +241,6 @@ if (isLocked) {
 } else {
   checkIfComplete();
 }
+
+loadLeaderboard();
 
