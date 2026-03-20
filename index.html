@@ -2,29 +2,93 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Mastermind Quiz</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parx Predict</title>
+  <meta name="author" content="kru">
   <link rel="stylesheet" href="style.css">
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
-  <div id="app">
-    <h1>Mastermind Quiz</h1>
+  <header class="header">
+    <a href="#" class="logo">LouisBowl</a>
+  </header>
+  
+  <div class="menu-icon" id="menuToggle">
+    <ion-icon name="menu-outline"></ion-icon>
+  </div>
+  
+  
 
-    <!-- QUIZ QUESTIONS WILL APPEAR HERE -->
-    <div id="quiz"></div>
+  <!-- side menu -->
+  <div id="sideMenuContainer"></div>
+  <script src="js/menu.js"></script>
 
-    <!-- SUBMIT BUTTON -->
-    <button id="submit" disabled>Lock In Predictions</button>
+  <!-- Centered container for both login and register -->
+  <div class="auth-container">
+    <!-- Login form -->
+    <div class="form-box login active">
+      <form id="login-form">
+        <h2>Login</h2>
+        <div class="input-box">
+          <span class="icon"><ion-icon name="person-circle-outline"></ion-icon></span>
+          <input type="text" name="username" placeholder="Username" required>
+        </div>
+        <div class="input-box">
+          <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
+          <input type="password" name="password" placeholder="Password" required>
+        </div>
+        <button type="submit">Login</button>
+        <div class="register-link">
+          <p>Don't have an account? <a href="#" id="showRegister">Register</a></p>
+        </div>
+        <div class="about-link">
+            <a href="about.html" id="about-link">How to Play</a>
+        </div>
+      </form>
+    </div>
 
-    <!-- RESULTS -->
-    <div id="results" style="display:none;"></div>
-
-    <!-- LEADERBOARD -->
-    <div id="leaderboard"></div>
+    <!-- Register form -->
+    <div class="form-box register">
+      <form id="register-form">
+        <h2>Register</h2>
+        <div class="input-box">
+          <span class="icon"><ion-icon name="person-circle-outline"></ion-icon></span>
+          <input type="text" name="username" placeholder="Username" required>
+        </div>
+        <div class="input-box">
+          <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
+          <input type="password" name="password" placeholder="Password" required>
+        </div>
+        <div class="input-box">
+          <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
+          <input type="password" name="verifyPassword" placeholder="Verify Password" required>
+        </div>
+        <button type="submit">Register</button>
+        <div class="login-link">
+          <p>Already have an account? <a href="#" id="showLogin">Login</a></p>
+        </div>
+      </form>
+    </div>
   </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="script.js"></script>
+  <script>
+    document.getElementById("menuToggle").addEventListener("click", () => {
+      document.getElementById("sideMenu").classList.toggle("open");
+    });
 
+    // Close menu when clicking logout button
+    document.getElementById("logoutLink")?.addEventListener("click", async (e) => {
+      e.preventDefault();
+      await fetch('/logout', { method: 'POST', credentials: 'include' });
+      window.location.href = '/';
+    });
+  </script>
+
+
+  <script src="login.js"></script>
+  <script src="register.js"></script>
 </body>
 </html>
