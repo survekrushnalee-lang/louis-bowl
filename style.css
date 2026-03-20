@@ -1,32 +1,112 @@
+/* Side Menu */
+
+.menu-icon {
+  font-size: 1.8em;
+  cursor: pointer;
+  color: white;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 3000;
+}
+
+.side-menu {
+    position: fixed;
+    top: 0;
+    right: -260px;
+    width: 250px;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    border-left: 3px solid #fc0fc0;
+    display: flex;
+    flex-direction: column;
+    padding-top: 60px;
+    transition: right 0.3s ease;
+    z-index: 2000;
+}
+
+.side-menu.open {
+    right: 0;
+}
+
+.side-menu a {
+    color: white;
+    text-decoration: none;
+    padding: 14px 20px;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.side-menu a:hover {
+    background: #fc0fc0;
+    color: black;
+}
+
+.side-menu hr {
+    border: none;
+    height: 1px;
+    background-color: white; 
+    margin: 15px 0;
+}
+
+/* Deletion Link */
+.danger-link {
+    color: #c0392b;
+}
+
+.danger-link:hover {
+    color: #e74c3c;
+}
+
+/* Header and NavBar */
 body {
-  font-family: sans-serif;
-  max-width: 600px;
-  margin: 40px auto;
-  padding: 0 20px;
+    background: black;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100dvh;
+    padding-top: 120px;
 }
 
-h1 {
-  text-align: center;
+.header {
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: black;
+    padding: 20px;
+    border-bottom: 2px solid #fc0fc0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    z-index: 1000;
 }
 
-.question {
-  margin-bottom: 20px;
+.header .logo {
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.3em;
 }
 
-.option {
-  display: block;
-  margin: 5px 0;
+.navbar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
-#submit {
-  display: block;
-  margin: 20px 0;
-  padding: 10px 15px;
-  font-size: 16px;
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
 }
 
-#leaderboard, #results {
-  margin-top: 30px;
-  border-top: 1px solid #ccc;
-  padding-top: 20px;
+.navbar a:hover {
+    color: #fc0fc0;
+    text-shadow: 0 0 8px #fc0fc0;
 }
+
